@@ -3,7 +3,7 @@
 // TODO: Inclure la définition de la classe appropriée
 #include <iostream>
 #include "Auteur.h"
-#include <string>
+
 using namespace std;
 // TODO: Constructeur par paramètre en utilisant la liste d'initialisation
 Auteur::Auteur(const std::string& nom, unsigned int anneeDeNaissance) {

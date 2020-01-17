@@ -5,17 +5,42 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
-
+#include "GestionnaireAuteurs.h"
 // TODO: Constructeur par défault en utilisant la liste d'initialisation
+GestionnaireAuteurs::GestionnaireAuteurs() {
+	
+	nbAuteurs_ = 0;
+	//auteurs_ = {};
+}
+
 
 // TODO ajouterAuteur(const Auteur& auteur)
-// Ajouter un auteur au tableau des auteurs.
-// Retourner false si il n'y a plus de place dans le tableau.
+bool GestionnaireAuteurs::ajouterAuteur(const Auteur& auteur) {
+	// Ajouter un auteur au tableau des auteurs.
+	// Retourner false si il n'y a plus de place dans le tableau.
+	if (nbAuteurs_ < NB_AUTEURS_MAX) {
 
+		auteurs_[nbAuteurs_] = auteur;
+		nbAuteurs_++;
+
+		return true;
+	}
+	else {
+
+		return false;
+	}
+
+}
 // TODO chercherAuteur(const std::string& nomAuteur)
-// Chercher dans la liste des auteurs si un auteur comporte le nom passé en paramètre.
-// Retourner un nullptr si ce n'est pas le cas.
 
+Auteur* GestionnaireAuteurs::chercherAuteur(const std::string& nomAuteur) {
+	for (int i; i < nbAuteurs_; i++)
+		if (auteurs_[i].getNom == nomAuteur)
+			return &auteurs_[i];
+	return nullptr;
+	// Chercher dans la liste des auteurs si un auteur comporte le nom passé en paramètre.
+	// Retourner un nullptr si ce n'est pas le cas.
+}
 //! Méthode qui prend un nom de fichier en paramètre et qui charge les auteurs.
 //! \param nomFichier   Le nom du fichier à charger.
 //! \return             Un bool représentant si le chargement a été un succès.
