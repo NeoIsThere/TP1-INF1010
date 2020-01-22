@@ -7,30 +7,26 @@
 #include <sstream>
 #include "GestionnaireAuteurs.h"
 // TODO: Constructeur par défault en utilisant la liste d'initialisation
-GestionnaireAuteurs::GestionnaireAuteurs() {
+GestionnaireAuteurs::GestionnaireAuteurs() : auteurs_(), nbAuteurs_(0) {
 	
-	nbAuteurs_ = 0;
-	//auteurs_ = {};
 }
 
 
 // TODO ajouterAuteur(const Auteur& auteur)
-bool GestionnaireAuteurs::ajouterAuteur(const Auteur& auteur) {
 	// Ajouter un auteur au tableau des auteurs.
 	// Retourner false si il n'y a plus de place dans le tableau.
+
+bool GestionnaireAuteurs::ajouterAuteur(const Auteur& auteur) {
+	
 	if (nbAuteurs_ < NB_AUTEURS_MAX) {
 
-		auteurs_[nbAuteurs_] = auteur;
-		nbAuteurs_++;
+		auteurs_[nbAuteurs_++] = auteur;
 
 		return true;
 	}
-	else {
-
-		return false;
-	}
-
+	return false;
 }
+
 // TODO chercherAuteur(const std::string& nomAuteur)
 
 Auteur* GestionnaireAuteurs::chercherAuteur(const std::string& nomAuteur) {
@@ -47,9 +43,14 @@ Auteur* GestionnaireAuteurs::chercherAuteur(const std::string& nomAuteur) {
 bool GestionnaireAuteurs::chargerDepuisFichier(const std::string& nomFichier)
 {
     std::ifstream fichier(nomFichier);
-    if (fichier)
+    if (fichier.is_open())
     {
-        // TODO: envoyer chaque ligne à lireLigneAuteur
+		// TODO: envoyer chaque ligne à lireLigneAuteur
+		std::string ligne;
+		do {
+			lireLigneAuteur(ligne);
+		} while (getline(fichier,ligne));
+        
     }
     std::cerr << "Le fichier " << nomFichier
               << " n'existe pas. Assurez-vous de le mettre au bon endroit.\n";
@@ -70,14 +71,24 @@ void GestionnaireAuteurs::afficher(std::ostream& stream) const
 
 // TODO getNbAuteurs() const: Retourner le nombre d'auteurs dans la liste
 
+size_t GestionnaireAuteurs::getNbAuteurs() const {
+	return nbAuteurs_;
+}
+
 //! Méthode qui ajoute un auteur avec un string.
 //! \param ligne Le string qui comporte tous les attributs de l'auteur.
 bool GestionnaireAuteurs::lireLigneAuteur(const std::string& ligne)
 {
     std::istringstream stream(ligne);
     std::string nom;
-    unsigned int age;
+    unsigned int anneeDeNaissance;
 
+	stream >> std::quoted(nom) >> anneeDeNaissance;
+
+	Auteur auteur{ nom, anneeDeNaissance };
+
+	ajouterAuteur(auteur);
+	
     // TODO
     // Utiliser l'opérateur d'extraction (>>) depuis le stream
     // Pour extraire tout ce qui se trouve entre "" dans un stream,
