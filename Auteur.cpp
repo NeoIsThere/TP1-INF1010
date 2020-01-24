@@ -6,7 +6,7 @@
 
 using namespace std;
 // TODO: Constructeur par paramètre en utilisant la liste d'initialisation
-Auteur::Auteur(const std::string& nom, unsigned int anneeDeNaissance) : nom_(nom), anneeDeNaissance_(anneeDeNaissance) {
+Auteur::Auteur(const std::string& nom, unsigned int anneeDeNaissance) : nom_(nom), anneeDeNaissance_(anneeDeNaissance), nbFilms_(0) {
 }
 
 //! Méthode qui affiche un auteur.

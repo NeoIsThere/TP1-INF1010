@@ -30,8 +30,8 @@ bool GestionnaireAuteurs::ajouterAuteur(const Auteur& auteur) {
 // TODO chercherAuteur(const std::string& nomAuteur)
 
 Auteur* GestionnaireAuteurs::chercherAuteur(const std::string& nomAuteur) {
-	for (int i; i < nbAuteurs_; i++)
-		if (auteurs_[i].getNom == nomAuteur)
+	for (int i=0; i < nbAuteurs_; i++)
+		if (auteurs_[i].getNom() == nomAuteur)
 			return &auteurs_[i];
 	return nullptr;
 	// Chercher dans la liste des auteurs si un auteur comporte le nom passé en paramètre.
@@ -42,15 +42,16 @@ Auteur* GestionnaireAuteurs::chercherAuteur(const std::string& nomAuteur) {
 //! \return             Un bool représentant si le chargement a été un succès.
 bool GestionnaireAuteurs::chargerDepuisFichier(const std::string& nomFichier)
 {
+	nbAuteurs_ = 0;
     std::ifstream fichier(nomFichier);
     if (fichier.is_open())
     {
 		// TODO: envoyer chaque ligne à lireLigneAuteur
 		std::string ligne;
-		do {
+		while (getline(fichier, ligne)) {
 			lireLigneAuteur(ligne);
-		} while (getline(fichier,ligne));
-        
+		}
+		return true;
     }
     std::cerr << "Le fichier " << nomFichier
               << " n'existe pas. Assurez-vous de le mettre au bon endroit.\n";
@@ -79,6 +80,7 @@ size_t GestionnaireAuteurs::getNbAuteurs() const {
 //! \param ligne Le string qui comporte tous les attributs de l'auteur.
 bool GestionnaireAuteurs::lireLigneAuteur(const std::string& ligne)
 {
+	
     std::istringstream stream(ligne);
     std::string nom;
     unsigned int anneeDeNaissance;
@@ -88,6 +90,9 @@ bool GestionnaireAuteurs::lireLigneAuteur(const std::string& ligne)
 	Auteur auteur{ nom, anneeDeNaissance };
 
 	ajouterAuteur(auteur);
+	//std::cout << nom  << std::endl;
+
+	return true;
 	
     // TODO
     // Utiliser l'opérateur d'extraction (>>) depuis le stream
